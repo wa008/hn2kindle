@@ -1,0 +1,42 @@
+name: Daily HN to Kindle
+
+on:
+  schedule:
+    # Run at 8 AM UTC (midnight Pacific Time) when yesterday's front page is fixed
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+    # Allow manual trigger
+    inputs:
+      top_posts_count:
+        description: 'Number of top posts to fetch'
+        required: false
+        default: '10'
+
+jobs:
+  send-digest:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run HN2Kindle
+        env:
+          TOP_POSTS_COUNT: ${{ github.event.inputs.top_posts_count || secrets.TOP_POSTS_COUNT || '10' }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          KINDLE_EMAILS: ${{ secrets.KINDLE_EMAILS }}
+        run: |
+          cd src
+          python main.py

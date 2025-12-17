@@ -1,0 +1,17 @@
+# HN2Kindle Dependencies
+
+# HTTP requests
+requests>=2.28.0
+
+# Content extraction
+trafilatura>=1.6.0
+newspaper3k>=0.2.8
+
+# EPUB generation
+EbookLib>=0.18
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# Required by newspaper3k
+lxml>=4.9.0
