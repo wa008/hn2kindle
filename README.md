@@ -14,9 +14,13 @@ Daily Hacker News digest delivered to your Kindle.
 Deploy once and get daily digests automatically. GitHub Actions is **completely free** for public repos and has generous free tier for private repos.
 
 Add these secrets to your repo (Settings → Secrets → Actions):
-- `GMAIL_ADDRESS`
-- `GMAIL_APP_PASSWORD` ([create here](https://myaccount.google.com/apppasswords))
-- `KINDLE_EMAILS` (single or multiple comma-separated)
+- Sender: 
+   - Gmail: 
+      - `GMAIL_ADDRESS`: Your sender gmail address
+      - `GMAIL_APP_PASSWORD`: [create here](https://myaccount.google.com/apppasswords)
+   - Others: TODO
+- Recipients: 
+   - `KINDLE_EMAILS`: single or multiple comma-separated: 
 
 ## Run locally
 
