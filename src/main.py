@@ -103,6 +103,10 @@ def main():
             "score": post["score"],
             "comment_count": post["comment_count"],
         })
+        
+        # Stop once we have enough successful posts
+        if len(enriched_posts) >= post_count:
+            break
     
     print(f"Successfully extracted {len(enriched_posts)} posts")
     

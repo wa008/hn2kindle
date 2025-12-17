@@ -36,14 +36,16 @@ def fetch_yesterday_top_stories(count: int) -> list[dict]:
     start_ts, end_ts = get_yesterday_timestamps()
     
     try:
-        # Search for front page stories from yesterday, sorted by points
+        # Search for stories from yesterday by date range, sorted by points
+        # Always fetch a large batch to ensure we have enough after filtering
         params = {
-            "tags": "front_page",
-            "numericFilters": f"created_at_i>{start_ts},created_at_i<{end_ts}",
-            "hitsPerPage": count * 2,  # Get extra in case some don't have URLs
+            "tags": "story",
+            "numericFilters": f"created_at_i>={start_ts},created_at_i<={end_ts}",
+            "hitsPerPage": count * 3,
         }
         
-        response = requests.get(f"{ALGOLIA_API}/search_by_date", params=params, timeout=15)
+        # Use search endpoint (sorted by relevance/points) instead of search_by_date
+        response = requests.get(f"{ALGOLIA_API}/search", params=params, timeout=15)
         response.raise_for_status()
         data = response.json()
         
@@ -65,12 +67,9 @@ def fetch_yesterday_top_stories(count: int) -> list[dict]:
                 "comment_count": hit.get("num_comments", 0),
                 "time": hit.get("created_at_i", 0),
             })
-            
-            if len(stories) >= count:
-                break
         
-        # Keep default HN front page order (already ranked by HN algorithm)
-        return stories[:count]
+        # Return all valid stories (count limit applied after content extraction)
+        return stories
         
     except requests.RequestException as e:
         print(f"Error fetching from Algolia API: {e}")
