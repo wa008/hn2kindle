@@ -54,5 +54,6 @@ For easy testing:
 
 ## Free join
 1. Add "hackernews2kindle@gmail.com" to your Kindle email list
-2. Tell me your Kindle email address
-3. I will add you to the list
+2. Tell me your Kindle email address by issue or email
+
+You will receive hn digest every day. 
