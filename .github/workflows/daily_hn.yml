@@ -26,7 +26,7 @@ jobs:
       
       - name: Run HN2Kindle
         env:
-          TOP_POSTS_COUNT: ${{ github.event.inputs.top_posts_count || secrets.TOP_POSTS_COUNT || '50' }}
+          TOP_POSTS_COUNT: ${{ secrets.TOP_POSTS_COUNT || '50' }}
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           KINDLE_EMAILS: ${{ secrets.KINDLE_EMAILS }}
