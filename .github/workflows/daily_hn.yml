@@ -4,6 +4,9 @@ on:
   schedule:
     # Run at 8 AM UTC (midnight Pacific Time) when yesterday's front page is fixed
     - cron: '0 8 * * *'
+  workflow_dispatch:
+    # Allow manual trigger
+
 
 jobs:
   send-digest:
