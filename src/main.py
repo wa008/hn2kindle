@@ -117,7 +117,7 @@ def main():
     if args.output:
         epub_path = Path(args.output).absolute()
     else:
-        epub_filename = f"hn_daily_{today}.epub"
+        epub_filename = f"HN-{today}.epub"
         epub_path = Path(epub_filename).absolute()
     
     create_epub(enriched_posts, str(epub_path))
