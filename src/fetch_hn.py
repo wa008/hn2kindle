@@ -69,8 +69,7 @@ def fetch_yesterday_top_stories(count: int) -> list[dict]:
             if len(stories) >= count:
                 break
         
-        # Sort by score (highest first)
-        stories.sort(key=lambda x: x["score"], reverse=True)
+        # Keep default HN front page order (already ranked by HN algorithm)
         return stories[:count]
         
     except requests.RequestException as e:

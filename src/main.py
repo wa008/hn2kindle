@@ -90,7 +90,11 @@ def main():
         
         extracted = extract_content(post["url"])
         
-        # Use HN title for consistency in catalog and chapter headings
+        # Skip posts where content extraction failed
+        if not extracted.success or not extracted.content.strip():
+            print(f"    Skipped: {extracted.error or 'No content'}")
+            continue
+        
         enriched_posts.append({
             "title": post["title"],  # HN title
             "author": extracted.author or post["author"],
@@ -99,9 +103,8 @@ def main():
             "score": post["score"],
             "comment_count": post["comment_count"],
         })
-        
-        if not extracted.success:
-            print(f"    Warning: {extracted.error}")
+    
+    print(f"Successfully extracted {len(enriched_posts)} posts")
     
     # Step 3: Convert to EPUB
     print("\n[3/4] Creating EPUB file...")

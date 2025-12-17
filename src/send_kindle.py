@@ -87,12 +87,10 @@ def send_to_kindle(epub_path: str, kindle_emails: list[str] = None) -> bool:
             server.starttls()
             server.login(gmail_address, gmail_password)
             server.send_message(msg)
-        
-        print(f"Successfully sent EPUB to: {', '.join(kindle_emails)}")
         return True
         
     except smtplib.SMTPException as e:
-        print(f"Failed to send email: {e}")
+        print(f"Failed to send emails")
         return False
 
 

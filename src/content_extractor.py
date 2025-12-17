@@ -85,10 +85,20 @@ def extract_content(url: str, timeout: int = 15) -> ExtractedContent:
         ExtractedContent with the extracted data or error information
     """
     try:
+        # Extract domain for Referer header
+        from urllib.parse import urlparse
+        parsed = urlparse(url)
+        referer = f"{parsed.scheme}://{parsed.netloc}/"
+        
+        # Simple headers that work with most sites
+        # Don't specify Accept-Encoding (let requests handle it automatically)
         headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Referer": referer,
         }
-        response = requests.get(url, headers=headers, timeout=timeout)
+        response = requests.get(url, headers=headers, timeout=timeout, allow_redirects=True)
         response.raise_for_status()
         html = response.text
     except requests.RequestException as e:
