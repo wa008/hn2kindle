@@ -8,7 +8,7 @@ and sends to configured Kindle email addresses.
 import argparse
 import os
 import sys
-from datetime import datetime
+import datetime
 from pathlib import Path
 
 # Load environment variables from .env file if present
@@ -60,7 +60,7 @@ def main():
     
     print("=" * 60)
     print("HN2Kindle - Daily Hacker News Digest")
-    print(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 60)
     
     # Step 1: Fetch top HN posts
@@ -112,12 +112,12 @@ def main():
     
     # Step 3: Convert to EPUB
     print("\n[3/4] Creating EPUB file...")
-    today = datetime.now().strftime("%Y-%m-%d")
+    yesterday = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
     
     if args.output:
         epub_path = Path(args.output).absolute()
     else:
-        epub_filename = f"HN-{today}.epub"
+        epub_filename = f"HN-{yesterday}.epub"
         epub_path = Path(epub_filename).absolute()
     
     create_epub(enriched_posts, str(epub_path))
